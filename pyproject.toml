@@ -8,6 +8,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 
+[tool.poetry.dev-dependencies]
+pytest = "^5"
+black = "^22"
+isort = "^5"
+flake8 = "^4"
+bandit = "^1"
+pre-commit = "^2"
+
+[tool.isort]
+profile="black"
 
 [build-system]
 requires = ["poetry-core"]
