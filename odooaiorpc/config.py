@@ -3,6 +3,8 @@ from urllib.parse import urlparse
 
 from pydantic import AnyUrl, BaseSettings, validator
 
+from . import const
+
 
 class OdooSettings(BaseSettings):
     """
@@ -30,6 +32,7 @@ class OdooSettings(BaseSettings):
     """
     Odoo user API key
     """
+    transport: const.Transport = const.Transport.xmlrpc
 
     @validator("database", pre=True, always=True)
     def extract_db_name(cls, v, values, **kwargs):
