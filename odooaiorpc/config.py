@@ -1,6 +1,7 @@
 import typing as t
+from urllib.parse import urlparse
 
-from pydantic import BaseSettings
+from pydantic import AnyUrl, BaseSettings, validator
 
 
 class OdooSettings(BaseSettings):
@@ -13,7 +14,7 @@ class OdooSettings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
 
-    url: t.Optional[str] = None
+    url: AnyUrl
     """
     Odoo url
     """
@@ -21,11 +22,21 @@ class OdooSettings(BaseSettings):
     """
     Odoo database
     """
-    user: t.Optional[str] = None
+    user: str
     """
     Odoo user
     """
-    secret: t.Optional[str] = None
+    secret: str
     """
     Odoo user API key
     """
+
+    @validator("database", pre=True, always=True)
+    def extract_db_name(cls, v, values, **kwargs):
+        """
+        Extract database name from url if not specified
+        """
+        if v is None and "url" in values:
+            parsed_url = urlparse(values["url"])
+            return parsed_url.hostname.split(".")[0]
+        return v
