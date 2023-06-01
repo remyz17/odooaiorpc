@@ -57,3 +57,4 @@ bin/
 .vscode/
 LICENSE.md
 pyvenv.cfg
+.env
