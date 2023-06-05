@@ -1,9 +1,9 @@
 import enum
 
 
-class Transport(str, enum.Enum):
+class Protocol(str, enum.Enum):
     """
-    Supported Http transport
+    Supported Http transport protocl
     """
 
     xmlrpc = "xmlrpc"

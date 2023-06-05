@@ -1,9 +1,22 @@
 import typing as t
 from urllib.parse import urlparse
 
+from httpx._types import AuthTypes, HeaderTypes, TimeoutTypes, VerifyTypes
 from pydantic import AnyUrl, BaseSettings, validator
 
-from . import const
+from odooaiorpc import const
+
+
+class TransportSettings(BaseSettings):
+    class Config:
+        env_prefix = "ODOO_AIO_TP_"
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+    auth: t.Optional[AuthTypes] = None
+    headers: t.Optional[HeaderTypes] = None
+    context: VerifyTypes = None
+    timeout: TimeoutTypes = 5.0
 
 
 class OdooSettings(BaseSettings):
@@ -32,7 +45,8 @@ class OdooSettings(BaseSettings):
     """
     Odoo user API key
     """
-    transport: const.Transport = const.Transport.xmlrpc
+    protocol: const.Protocol = const.Protocol.jsonrpc
+    transport_config: TransportSettings = TransportSettings()
 
     @validator("database", pre=True, always=True)
     def extract_db_name(cls, v, values, **kwargs):
