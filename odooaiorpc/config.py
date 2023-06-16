@@ -7,18 +7,6 @@ from pydantic import AnyUrl, BaseSettings, validator
 from odooaiorpc import const
 
 
-class TransportSettings(BaseSettings):
-    class Config:
-        env_prefix = "ODOO_AIO_TP_"
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-
-    auth: t.Optional[AuthTypes] = None
-    headers: t.Optional[HeaderTypes] = None
-    context: VerifyTypes = None
-    timeout: TimeoutTypes = 5.0
-
-
 class OdooSettings(BaseSettings):
     """
     Odoo client configuration settings
@@ -46,7 +34,13 @@ class OdooSettings(BaseSettings):
     Odoo user API key
     """
     protocol: const.Protocol = const.Protocol.jsonrpc
-    transport_config: TransportSettings = TransportSettings()
+    """
+    RPC protocol used to communicate. Default to jsonrpc
+    """
+    auth: t.Optional[AuthTypes] = None
+    headers: t.Optional[HeaderTypes] = None
+    context: t.Optional[VerifyTypes] = None
+    timeout: TimeoutTypes = 5.0
 
     @validator("database", pre=True, always=True)
     def extract_db_name(cls, v, values, **kwargs):
