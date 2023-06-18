@@ -22,6 +22,15 @@ class XmlRpcProtocol(BaseProtocol):
         self._common_proxy, self._object_proxy, self._db_proxy = self._build_proxies()
 
     def _build_proxy(self, proxy_uri: str) -> ServerProxy:
+        """
+        Buuld xmlrpc ServerProxy with params
+
+        Args:
+            proxy_uri (str): URI to domain
+
+        Returns:
+            ServerProxy: xmlrpc proxy instance
+        """
         return ServerProxy(
             uri=f"{self._url}{proxy_uri}",
             auth=self._auth,
@@ -31,6 +40,12 @@ class XmlRpcProtocol(BaseProtocol):
         )
 
     def _build_proxies(self) -> t.Tuple[ServerProxy, ...]:
+        """
+        Build required xmlrpc proxies
+
+        Returns:
+            t.Tuple[ServerProxy, ...]: List of rpc proxies for each domain
+        """
         return tuple(
             self._build_proxy(proxy_uri=f"/xmlrpc/2/{domain}")
             for domain in ("common", "object", "db")

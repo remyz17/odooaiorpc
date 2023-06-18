@@ -23,8 +23,27 @@ class BaseProtocol(abc.ABC):
 
     @classmethod
     def from_settings(cls, settings: config.OdooSettings) -> "BaseProtocol":
+        """
+        Initiliaze transport protocol from settings instance
+
+        Args:
+            settings (config.OdooSettings): Settings
+
+        Returns:
+            BaseProtocol: Transport protocol instance
+        """
         return cls(**settings.dict(exclude={"database", "user", "secret", "protocol"}))
 
     @abc.abstractmethod
     async def execute(self, domain: str, methood: str, *args, **kw) -> any:
+        """
+        Execute method through transport protocol
+
+        Args:
+            domain (str): rpc domain
+            methood (str): method to execute
+
+        Returns:
+            any: RPC response
+        """
         ...
