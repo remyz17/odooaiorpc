@@ -5,7 +5,7 @@ from pydantic import AnyUrl
 
 from odooaiorpc import const
 from odooaiorpc.config import OdooSettings
-from odooaiorpc.domain import CommonDomain
+from odooaiorpc.domain import CommonDomain, DBDomain, ModelDomain
 from odooaiorpc.protocol import BaseProtocol, pick_preferred_protocol
 
 
@@ -42,9 +42,10 @@ class OdooAioRPC:
         self._database = database
         self._user = user
         self._secret = secret
+        self._uid = None
         self._common_proxy = None
         self._object_proxy = None
-        self._db_procy = None
+        self._db_proxy = None
 
         if transport:
             self._transport = transport
@@ -96,23 +97,74 @@ class OdooAioRPC:
         )
 
     async def authenticate(self) -> t.Optional[int]:
-        return await self.common.authenticate(
+        """
+        Authenticate configured user with Odoo
+        Return uid if auth process success
+
+        Returns:
+            t.Optional[int]: User uid
+        """
+        uid = await self.common.authenticate(
             self._database, self._user, self._secret, {}
         )
+        if uid:
+            self._uid = uid
+        return uid
 
     async def version(self) -> dict:
+        """
+        Return Odoo server version informations
+
+        Returns:
+            dict: Version infos
+        """
         return await self.common.version()
 
     @property
+    def is_auth(self) -> bool:
+        """
+        Check if auth has been done
+
+        Returns:
+            bool: auth state
+        """
+        return self._uid is not None
+
+    @property
     def common(self) -> CommonDomain:
+        """
+        Return common RPC domain
+        Initialize if not already done
+
+        Returns:
+            CommonDomain: Common RPC domain
+        """
         if self._common_proxy is None:
             self._common_proxy = CommonDomain(transport=self._transport)
         return self._common_proxy
 
     @property
-    def models(self):
-        raise NotImplementedError()
+    def models(self) -> ModelDomain:
+        """
+        Return object/models RPC domain
+        Initialize if not already done
+
+        Returns:
+            ModelDomain: Object RPC domain
+        """
+        if self._object_proxy is None:
+            self._object_proxy = ModelDomain(transport=self._transport)
+        return self._object_proxy
 
     @property
-    def db(self):
-        raise NotImplementedError()
+    def db(self) -> DBDomain:
+        """
+        Return db RPC domain
+        Initialize if not already done
+
+        Returns:
+            DBDomain: DB RPC domain
+        """
+        if self._db_proxy is None:
+            self._db_proxy = DBDomain(transport=self._transport)
+        return self._db_proxy
