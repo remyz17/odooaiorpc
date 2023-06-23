@@ -18,5 +18,5 @@ class JsonRpcProtocol(BaseProtocol):
             url=url, auth=auth, headers=headers, context=context, timeout=timeout
         )
 
-    async def execute(self, domain: str, methood: str, *args, **kw) -> any:
+    async def execute(self, domain: str, methood: str, *args, **kw) -> t.Any:
         raise NotImplementedError()

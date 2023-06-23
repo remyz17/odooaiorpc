@@ -51,7 +51,7 @@ class XmlRpcProtocol(BaseProtocol):
             for domain in ("common", "object", "db")
         )
 
-    async def execute(self, domain: str, methood: str, *args, **kw) -> any:
+    async def execute(self, domain: str, methood: str, *args, **kw) -> t.Any:
         if domain not in ("db", "object", "common"):
             raise ValueError(f"RPC {domain=} does not exist")
         # TODO manage exceptions

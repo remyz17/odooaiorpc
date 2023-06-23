@@ -42,10 +42,10 @@ class OdooAioRPC:
         self._database = database
         self._user = user
         self._secret = secret
-        self._uid = None
-        self._common_proxy = None
-        self._object_proxy = None
-        self._db_proxy = None
+        self._uid: t.Optional[int] = None
+        self._common_proxy: t.Optional[CommonDomain] = None
+        self._object_proxy: t.Optional[ModelDomain] = None
+        self._db_proxy: t.Optional[DBDomain] = None
 
         if transport:
             self._transport = transport
@@ -141,7 +141,7 @@ class OdooAioRPC:
         """
         if self._common_proxy is None:
             self._common_proxy = CommonDomain(transport=self._transport)
-        return self._common_proxy
+        return t.cast(CommonDomain, self._common_proxy)
 
     @property
     def models(self) -> ModelDomain:
@@ -154,7 +154,7 @@ class OdooAioRPC:
         """
         if self._object_proxy is None:
             self._object_proxy = ModelDomain(transport=self._transport)
-        return self._object_proxy
+        return t.cast(ModelDomain, self._object_proxy)
 
     @property
     def db(self) -> DBDomain:
@@ -167,4 +167,4 @@ class OdooAioRPC:
         """
         if self._db_proxy is None:
             self._db_proxy = DBDomain(transport=self._transport)
-        return self._db_proxy
+        return t.cast(DBDomain, self._db_proxy)

@@ -35,7 +35,7 @@ class BaseProtocol(abc.ABC):
         return cls(**settings.dict(exclude={"database", "user", "secret", "protocol"}))
 
     @abc.abstractmethod
-    async def execute(self, domain: str, methood: str, *args, **kw) -> any:
+    async def execute(self, domain: str, methood: str, *args, **kw) -> t.Any:
         """
         Execute method through transport protocol
 

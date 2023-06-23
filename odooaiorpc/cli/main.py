@@ -1,14 +1,12 @@
-import typer
+from . import AsyncTyper, db, server
 
-from . import db, server
-
-cli = typer.Typer(no_args_is_help=True)
+cli = AsyncTyper(no_args_is_help=True)
 cli.add_typer(server.cli, name="server")
 cli.add_typer(db.cli, name="database")
 
 
 @cli.callback()
-def callback():
+def callback() -> None:
     """
     OdooAioRPC allow you to query Odoo via command line interface
     """

@@ -9,7 +9,7 @@ class BaseDomain(abc.ABC):
     def __init__(self, transport: "BaseProtocol") -> None:
         self._transport = transport
 
-    async def _execute(self, method: str, *args, **kw) -> any:
+    async def _execute(self, method: str, *args, **kw) -> t.Any:
         return await self._transport.execute(self.domain_name, method, *args, **kw)
 
     @abc.abstractproperty
