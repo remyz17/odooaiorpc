@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "An async remote procedure call to Odoo ERP"
 authors = ["Remy Zulauff <remy.zulauff@gmail.com>"]
 readme = "README.md"
+homepage = "https://github.com/remyz17/odooaiorpc"
+repository = "https://github.com/remyz17/odooaiorpc"
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.11"
