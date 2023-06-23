@@ -33,6 +33,10 @@ isort = "^5.12.0"
 [tool.isort]
 profile="black"
 
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B602", "B607"]
+
 [tool.mypy]
 # 3rd party import
 ignore_missing_imports = true
