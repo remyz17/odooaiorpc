@@ -1,3 +1,7 @@
+"""
+OdooAioRPC is an aync Odoo remote procedure call
+"""
+
 from .client import OdooAioRPC
 from .config import OdooSettings
 
