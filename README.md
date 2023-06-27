@@ -3,4 +3,5 @@
 [![Documentation](https://github.com/remyz17/odooaiorpc/actions/workflows/docs.yaml/badge.svg)](https://github.com/remyz17/odooaiorpc/actions/workflows/docs.yaml)
 
 # OdooAioRPC
-An async remote procedure call to Odoo ERP
+An async remote procedure call to Odoo ERP.  
+Docs is availible [here](https://remyz17.github.io/odooaiorpc/).  
