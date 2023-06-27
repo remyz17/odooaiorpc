@@ -28,7 +28,7 @@ jobs:
         run: |
           git config --global user.name "Remy Zulauff"
           git config --global user.email "remy.zulauff@gmail.com"
-          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/"
+          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
       - name: Build docs
         run: |
           set -o pipefail
