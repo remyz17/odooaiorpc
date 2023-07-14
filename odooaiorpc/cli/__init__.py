@@ -3,6 +3,7 @@ from functools import wraps
 from typing import Any, ParamSpec
 
 import anyio
+import sniffio
 import typer
 
 P = ParamSpec("P")
@@ -32,7 +33,7 @@ class AsyncTyper(typer.Typer):
                 async def _main() -> None:
                     await async_func(*_args, **_kwargs)
 
-                return anyio.run(_main)
+                return anyio.run(_main, backend=sniffio.current_async_library())
 
             # Now use app.command as normal to register the synchronous function
             self.command(*args, **kwargs)(sync_func)
